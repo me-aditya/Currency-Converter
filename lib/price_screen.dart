@@ -50,13 +50,13 @@ class _PriceScreenState extends State<PriceScreen> {
         children: currencies);
   }
 
-  Widget getPicker() {
-    if (Platform.isIOS) {
-      return iOSPicker();
-    }
+  // Widget getPicker() {
+  //   if (Platform.isIOS) {
+  //     return iOSPicker();
+  //   }
 
-    return androidDropdownButton();
-  }
+  //   return androidDropdownButton();
+  // }
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,7 +93,7 @@ class _PriceScreenState extends State<PriceScreen> {
             alignment: Alignment.center,
             padding: EdgeInsets.only(bottom: 30.0),
             color: Colors.lightBlue,
-            child: getPicker(),
+            child: Platform.isIOS ? iOSPicker() : androidDropdownButton(),
           ),
         ],
       ),
