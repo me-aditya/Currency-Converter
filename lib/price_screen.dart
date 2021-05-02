@@ -44,6 +44,15 @@ class _PriceScreenState extends State<PriceScreen> {
     return currencies;
   }
 
+  CupertinoPicker iOSPicker() {
+    return CupertinoPicker(
+                itemExtent: 32.0,
+                onSelectedItemChanged: (onSelectedItemChanged) {
+                  print(onSelectedItemChanged);
+                },
+                children: getPickerItems());
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -79,12 +88,7 @@ class _PriceScreenState extends State<PriceScreen> {
             alignment: Alignment.center,
             padding: EdgeInsets.only(bottom: 30.0),
             color: Colors.lightBlue,
-            child: CupertinoPicker(
-                itemExtent: 32.0,
-                onSelectedItemChanged: (onSelectedItemChanged) {
-                  print(onSelectedItemChanged);
-                },
-                children: getPickerItems()),
+            child: iOSPicker(),
           ),
         ],
       ),
