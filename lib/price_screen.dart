@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'coin_data.dart';
+import 'dart:io' show platform.dart ;
 
 class PriceScreen extends StatefulWidget {
   @override
@@ -11,7 +12,7 @@ class _PriceScreenState extends State<PriceScreen> {
   @override
   String selectedCurrency = "USD";
 
-  DropdownButton<String> getDropdownButton() {
+  DropdownButton<String> androidDropdownButton() {
     List<DropdownMenuItem<String>> dropdownItems = [];
 
     for (String element in currenciesList) {
