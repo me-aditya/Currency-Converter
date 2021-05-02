@@ -34,23 +34,19 @@ class _PriceScreenState extends State<PriceScreen> {
     );
   }
 
-  List<Widget> getPickerItems() {
+  CupertinoPicker iOSPicker() {
     List<Widget> currencies = [];
 
     for (String currency in currenciesList) {
       currencies.add(Text(currency));
     }
 
-    return currencies;
-  }
-
-  CupertinoPicker iOSPicker() {
     return CupertinoPicker(
-                itemExtent: 32.0,
-                onSelectedItemChanged: (onSelectedItemChanged) {
-                  print(onSelectedItemChanged);
-                },
-                children: getPickerItems());
+        itemExtent: 32.0,
+        onSelectedItemChanged: (onSelectedItemChanged) {
+          print(onSelectedItemChanged);
+        },
+        children: currencies);
   }
 
   Widget build(BuildContext context) {
