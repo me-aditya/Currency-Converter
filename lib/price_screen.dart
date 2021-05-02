@@ -11,17 +11,7 @@ class _PriceScreenState extends State<PriceScreen> {
   @override
   String selectedCurrency = "USD";
 
-  List<Widget> getPickerItems() {
-    List<Widget> currencies = [];
-
-    for (String currency in currenciesList) {
-      currencies.add(Text(currency));
-    }
-
-    return currencies;
-  }
-
-  List<DropdownMenuItem> getDropdownItems() {
+  DropdownButton<String> getDropdownButton() {
     List<DropdownMenuItem<String>> dropdownItems = [];
 
     for (String element in currenciesList) {
@@ -33,7 +23,25 @@ class _PriceScreenState extends State<PriceScreen> {
       dropdownItems.add(list);
     }
 
-    return dropdownItems;
+    return DropdownButton<String>(
+      value: selectedCurrency,
+      items: dropdownItems,
+      onChanged: (value) {
+        setState(() {
+          selectedCurrency = value;
+        });
+      },
+    );
+  }
+
+  List<Widget> getPickerItems() {
+    List<Widget> currencies = [];
+
+    for (String currency in currenciesList) {
+      currencies.add(Text(currency));
+    }
+
+    return currencies;
   }
 
   Widget build(BuildContext context) {
@@ -83,13 +91,3 @@ class _PriceScreenState extends State<PriceScreen> {
     );
   }
 }
-
-// DropdownButton<String>(
-//               value: selectedCurrency,
-//               items: getDropdownItems(),
-//               onChanged: (value) {
-//                 setState(() {
-//                   selectedCurrency = value;
-//                 });
-//               },
-//             ),
