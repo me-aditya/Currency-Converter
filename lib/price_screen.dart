@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'api_handling.dart';
 import 'coin_data.dart';
 import 'dart:io' show Platform;
+
+ApiHandling apiHandling = new ApiHandling();
+var apiData;
+
+String value = "?";
 
 class PriceScreen extends StatefulWidget {
   @override
@@ -9,7 +15,6 @@ class PriceScreen extends StatefulWidget {
 }
 
 class _PriceScreenState extends State<PriceScreen> {
-  @override
   String selectedCurrency = "USD";
 
   DropdownButton<String> androidDropdownButton() {
@@ -27,9 +32,12 @@ class _PriceScreenState extends State<PriceScreen> {
     return DropdownButton<String>(
       value: selectedCurrency,
       items: dropdownItems,
-      onChanged: (value) {
+      onChanged: (value) async {
+        apiData = await apiHandling.getData(selectedCurrency);
         setState(() {
           selectedCurrency = value;
+
+          updateUI(apiData["src_side_base"][0]["rate"]);
         });
       },
     );
@@ -44,10 +52,19 @@ class _PriceScreenState extends State<PriceScreen> {
 
     return CupertinoPicker(
         itemExtent: 32.0,
-        onSelectedItemChanged: (onSelectedItemChanged) {
-          print(onSelectedItemChanged);
+        onSelectedItemChanged: (onSelectedItemChanged) async {
+          apiData = await apiHandling.getData(selectedCurrency);
+          setState(()  {
+            selectedCurrency = currenciesList[onSelectedItemChanged];
+            print(apiData);
+            updateUI(apiData["src_side_base"][0]["rate"]);
+          });
         },
         children: currencies);
+  }
+
+  void updateUI(double price) {
+    value = price.toStringAsFixed(1);
   }
 
   // Widget getPicker() {
@@ -78,7 +95,7 @@ class _PriceScreenState extends State<PriceScreen> {
               child: Padding(
                 padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 28.0),
                 child: Text(
-                  '1 BTC = ? USD',
+                  '1 BTC = $value $selectedCurrency',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 20.0,
@@ -93,10 +110,12 @@ class _PriceScreenState extends State<PriceScreen> {
             alignment: Alignment.center,
             padding: EdgeInsets.only(bottom: 30.0),
             color: Colors.lightBlue,
-            child: Platform.isIOS ? iOSPicker() : androidDropdownButton(),
+            child: iOSPicker(),
           ),
         ],
       ),
     );
   }
 }
+
+// Platform.isIOS ? iOSPicker() : androidDropdownButton(),
